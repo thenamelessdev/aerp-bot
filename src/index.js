@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags } = require('discord.js');
+const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status } = require('discord.js');
 const { token } = require('../config.json');
 
 // Create a new client instance
@@ -14,6 +14,20 @@ const commands = [
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+	const rest = new REST({ version: "10" }).setToken(token);
+	try {
+		console.log("Registering commands...");
+		rest.put(
+			Routes.applicationCommand(readyClient.user.id),
+			{
+				body: commands
+			}
+		)
+		console.log("Commands registered.");
+	}
+	catch (error) {
+		console.log("There was a error registering commands");
+	}
 });
 
 // ping command reply
