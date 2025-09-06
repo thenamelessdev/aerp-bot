@@ -10,6 +10,11 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 // high rank role id
 const hrid = "1411678103033610301";
 
+// server join code and link
+const joincode = "tkc45ps2";
+const joinlink = "https://www.roblox.com/games/start?placeId=7711635737&launchData=joinCode%3Dtkc45ps2";
+
+
 // commands
 const commands = [
     new SlashCommandBuilder().setName("ping").setDescription("A ping command"),
@@ -82,6 +87,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
 		console.log("Punish command used")
     }
 });
+
+
+// events
+client.on(Events.MessageCreate, async (message) => {
+    if (message.content == "!code") {
+        message.reply(`Join code: `${joincode}` \n-# On mobile you can click on it to copy \n[Quick join here](${joinlink})`);
+    }
+})
 
 // Log in to Discord with your client's token
 client.login(token);
