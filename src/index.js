@@ -91,7 +91,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 // events
 client.on(Events.MessageCreate, async (message) => {
-    if (message.content == "!code") {
+    if (message.content == "code") {
          await message.reply(`Join code: ${joincode} \n[Quick join here](${joinlink})`);
     }
 })
