@@ -8,7 +8,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 // variables
 
 // high rank role id
-const hrid = "1413946019846291476";
+const hrid = "1411678103033610301";
 
 // commands
 const commands = [
@@ -73,7 +73,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
                 // User may have DMs closed
             }
             // Fetch the channel each time since fetch returns a Promise
-            const punishlogging = await client.channels.fetch("1413788078719373353");
+            const punishlogging = await client.channels.fetch("1411671957937848361");
             await punishlogging.send(`Target: ${target} \nPunishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>`);
             await interaction.reply("Punished user");
         } else {
