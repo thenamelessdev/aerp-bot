@@ -20,7 +20,7 @@ client.once(Events.ClientReady, readyClient => {
 		rest.put(
 			Routes.applicationCommand(readyClient.user.id),
 			{
-				body: commands
+				body: commands.map(cmd => cmd.toJSON())
 			}
 		)
 		console.log("Commands registered.");
