@@ -55,6 +55,11 @@ client.once(Events.ClientReady, async readyClient => {
     } catch (error) {
         console.error("There was an error registering commands:", error);
     }
+
+    client.user.setPresence({
+        activities: [{ name: `Join code: ${joincode}`, type: 0 }],
+        status: "dnd",
+    })
 });
 
 // commands
