@@ -10,38 +10,33 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 // high rank role id
 const hrid = "1413946019846291476";
 
-// punishment logging channel
-const punishlogging = client.channels.fetch("1413788078719373353");
-
-
+// commands
 const commands = [
-	new SlashCommandBuilder().setName("ping").setDescription("A ping command"),
-	new SlashCommandBuilder()
-		.setName("punish")
-		.setDescription("Punishes a user")
-		.addUserOption(option =>
-			option
-			.setName("target")
-			.setDescription("The person you want to punish")
-			.setRequired(true)
-		)
-		.addStringOption(option =>
-			option
-			.setName("punishment-type")
-			.setDescription("The punishment that you want to give")
-			.setRequired(true)
-		)
-		.addStringOption(option =>
-			option
-			.setName("reason")
-			.setDescription("The reason of the punishemnt")
-			.setRequired(true)
-		)
+    new SlashCommandBuilder().setName("ping").setDescription("A ping command"),
+    new SlashCommandBuilder()
+        .setName("punish")
+        .setDescription("Punishes a user")
+        .addUserOption(option =>
+            option
+            .setName("target")
+            .setDescription("The person you want to punish")
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+            option
+            .setName("punishment-type")
+            .setDescription("The punishment that you want to give")
+            .setRequired(true)
+        )
+        .addStringOption(option =>
+            option
+            .setName("reason")
+            .setDescription("The reason of the punishemnt")
+            .setRequired(true)
+        )
 ]
 
 // When the client is ready, run this code (only once).
-// The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
-// It makes some properties non-nullable.
 client.once(Events.ClientReady, async readyClient => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
     const rest = new REST({ version: "10" }).setToken(token);
@@ -58,33 +53,34 @@ client.once(Events.ClientReady, async readyClient => {
 });
 
 // commands
-
-// ping command
 client.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isCommand()) return;
+
     if (interaction.commandName === "ping") {
         await interaction.reply("Pong!");
         console.log("Ping command used.");
     }
+
+    if (interaction.commandName === "punish") {
+        const target = interaction.options.getUser("target");
+        const punishmentType = interaction.options.getString("punishment-type");
+        const reason = interaction.options.getString("reason");
+
+        if (interaction.member.roles.cache.has(hrid)) {
+            try {
+                await target.send(`You got punished: Punishment: ${punishmentType}, Reason: ${reason}, Punishing HR: <@${interaction.member.id}>`);
+            } catch (err) {
+                // User may have DMs closed
+            }
+            // Fetch the channel each time since fetch returns a Promise
+            const punishlogging = await client.channels.fetch("1413788078719373353");
+            await punishlogging.send(`Target: ${target} \nPunishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>`);
+            await interaction.reply("Punished user");
+        } else {
+            await interaction.reply({ content: "You don't have permissions to run this command.", ephemeral: true });
+        }
+    }
 });
-
-// punish command
-client.on(Events.InteractionCreate, async (interaction) => {
-	if (interaction.commandName == "punish"){
-		const target = interaction.options.getUser("target");
-		const targetString = interaction.options.getString("target");
-		const punishmentType = interaction.options.getString("punishment-type");
-		const reason = interaction.options.getString("reason");
-		if (interaction.member.roles.cache.has(hrid)) {
-			await target.send(`You got punished: Punishment: ${punishmentType}, Reason: ${reason}, Punishing HR: <@${interaction.member.id}>`);
-			await punishlogging.send(`Target: ${targetString} \nPunishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>`);
-			await interaction.send("Punished user");
-		}
-		else {
-			interaction.reply({ content: "You don't have permissions to run this command.", ephemeral: true })
-		}
-	}
-})
-
 
 // Log in to Discord with your client's token
 client.login(token);
