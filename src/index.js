@@ -79,6 +79,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         } else {
             await interaction.reply({ content: "You don't have permissions to run this command.", ephemeral: true });
         }
+		console.log("Punish command used")
     }
 });
 
