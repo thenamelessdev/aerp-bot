@@ -58,7 +58,7 @@ client.once(Events.ClientReady, async readyClient => {
 
     client.user.setPresence({
         activities: [{ name: `Join code: ${joincode}`, type: 0 }],
-        status: "dnd",
+        status: "online",
     })
 });
 
