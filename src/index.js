@@ -90,11 +90,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 
 // events
-client.on(Events.MessageCreate, (message) => {
-    if (message.content == "code") {
-        message.reply("Join code: tkc45ps2 \n[Quick join here](https://www.roblox.com/games/start?placeId=7711635737&launchData=joinCode%3Dtkc45ps2)");
-    }
-})
+
 
 // Log in to Discord with your client's token
 client.login(token);
