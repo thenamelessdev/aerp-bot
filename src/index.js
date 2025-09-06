@@ -92,7 +92,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 // events
 client.on(Events.MessageCreate, async (message) => {
     if (message.content == "!code") {
-        message.reply(`Join code: `${joincode}` \n-# On mobile you can click on it to copy \n[Quick join here](${joinlink})`);
+        message.reply(`Join code: ${joincode} \n[Quick join here](${joinlink})`);
     }
 })
 
