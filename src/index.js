@@ -25,8 +25,9 @@ const shape = "beans-cc8v";
 const msgReportChannelID = "1414180142921809950";
 const memberReportChannelID = "1413515559672348792";
 
-// welcome channel id
+// welcome and leave channel id
 const welcomeChannelID = "1411672142445150271";
+const leaveChannelID = "1411672148245872844";
 
 
 // commands
@@ -179,6 +180,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
 client.on(Events.GuildMemberAdd, async (member) => {
     const welcomeChannel = await client.channels.fetch(welcomeChannelID);
     await welcomeChannel.send(`Welcome <@${member.user.id}> to ${member.guild.name}!`);
+})
+// leave message
+client.on(Events.GuildMemberRemove, async (member) => {
+    const leaveChannel = await client.channels.fetch(leaveChannelID);
+    await leaveChannel.send(`${member.user.username} has left the server :(`);
 })
 
 
