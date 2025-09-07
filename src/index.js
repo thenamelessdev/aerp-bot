@@ -84,7 +84,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         const reason = interaction.options.getString("reason");
         const embed = new EmbedBuilder()
             .setTitle("Punishment")
-            .setDescription("Punishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>")
+            .setDescription(`Punishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>`)
 
         if (interaction.member.roles.cache.has(hrid)) {
             try {
