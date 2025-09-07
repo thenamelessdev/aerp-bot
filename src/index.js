@@ -64,7 +64,7 @@ const commands = [
         .setType(ApplicationCommandType.Message),
     new ContextMenuCommandBuilder()
         .setName("Report Member")
-        .setType(ApplicationCommandType.message)
+        .setType(ApplicationCommandType.Member)
 ]
 
 // When the client is ready, run this code (only once).
