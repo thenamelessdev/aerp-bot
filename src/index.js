@@ -109,6 +109,27 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 // events
 
+// talk to beans
+client.on(Events.MessageCreate, async (message) => {
+    if (message.channel.id == shapechannelid) {
+        const response = await fetch("https://api.shapes.inc/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer ${shapesToken}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            model: `shapesinc/${shape}`,
+            messages: [{ role: "user", content: message.content }]
+        })
+        });
+
+        const data = await response.json();
+
+        const reply = data.choices[0].message.content;
+        message.reply(reply);
+    }
+})
 
 // Log in to Discord with your client's token
 client.login(token);
