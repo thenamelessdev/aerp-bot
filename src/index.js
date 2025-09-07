@@ -85,7 +85,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
         const embed = new EmbedBuilder()
             .setTitle("Punishment")
             .setDescription("Punishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>")
-            .setAuthor("Sent from AERP")
 
         if (interaction.member.roles.cache.has(hrid)) {
             try {
