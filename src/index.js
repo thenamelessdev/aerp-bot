@@ -159,7 +159,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
         await msgReportChannel.send(`**Message report** \nMessage: ${interaction.targetMessage.url} \nMessage content: ${interaction.targetMessage.content} \nAuthor: <@${interaction.targetMessage.author.id}> \nReporter: <@${interaction.user.id}>`);
         await interaction.reply({ content: "Message reported!", ephemeral: true });
     }
-    else if (interaction.commandName == "Report Member") {
+})
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.commandName == "Report Member") {
         const memberReportChannel = await client.channels.fetch(memberReportChannelID);
         await memberReportChannel.send(`**Member report** \nReported member: <@${interaction.targetMember.id}> \nReported: <@${interaction.user.id}>`);
         await interaction.reply("Member reported");
