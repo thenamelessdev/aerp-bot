@@ -116,9 +116,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
             await punishlogging.send(
                 `Target: <@${target.id}> \nPunishment: ${punishmentType}\nReason: ${reason}\nPunishing HR: <@${interaction.member.id}>`
             );
-            await interaction.reply("Punished user");
+            await interaction.reply({ content: "Punished user.", MessageFlags: [MessageFlags.Ephemeral] });
         } else {
-            await interaction.reply({ content: "You don't have permissions to run this command.", ephemeral: true });
+            await interaction.reply({ content: "You don't have permissions to run this command.", MessageFlags: [MessageFlags.Ephemeral] });
         }
 		console.log("Punish command used");
     }
@@ -157,14 +157,14 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.commandName == "Report Message") {
         const msgReportChannel = await client.channels.fetch(msgReportChannelID);
         await msgReportChannel.send(`**Message report** \nMessage: ${interaction.targetMessage.url} \nMessage content: ${interaction.targetMessage.content} \nAuthor: <@${interaction.targetMessage.author.id}> \nReporter: <@${interaction.user.id}>`);
-        await interaction.reply({ content: "Message reported!", ephemeral: true });
+        await interaction.reply({ content: "Message reported!", MessageFlags: [MessageFlags.Ephemeral] });
     }
 })
 client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.commandName == "Report Member") {
         const memberReportChannel = await client.channels.fetch(memberReportChannelID);
         await memberReportChannel.send(`**Member report** \nReported member: <@${interaction.targetMember.id}> \nReporter: <@${interaction.user.id}>`);
-        await interaction.reply("Member reported");
+        await interaction.reply({ content: "Member reported.", MessageFlags: [MessageFlags.Ephemeral] });
     }
 })
 
