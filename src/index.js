@@ -21,8 +21,9 @@ const joinlink = "https://www.roblox.com/games/start?placeId=7711635737&launchDa
 const shapechannelid = "1413448834138243112";
 const shape = "beans-cc8v";
 
-// msg report channel id
-const msgReportChannelID = "1414180142921809950"
+// msg and member report channel id
+const msgReportChannelID = "1414180142921809950";
+const memberReportChannelID = "1413515559672348792";
 
 
 // commands
@@ -58,9 +59,12 @@ const commands = [
             .setDescription("The message that you want to send to beans")
             .setRequired(true)
         ),
-        new ContextMenuCommandBuilder()
-            .setName("Report Message")
-            .setType(ApplicationCommandType.Message)
+    new ContextMenuCommandBuilder()
+        .setName("Report Message")
+        .setType(ApplicationCommandType.Message),
+    new ContextMenuCommandBuilder()
+        .setName("Report Member")
+        .setType(ApplicationCommandType.message)
 ]
 
 // When the client is ready, run this code (only once).
@@ -148,12 +152,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
 })
 
 
-// report
+// report member and message
 client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.commandName == "Report Message") {
         const msgReportChannel = await client.channels.fetch(msgReportChannelID);
         await msgReportChannel.send(`**Message report** \nMessage: ${interaction.targetMessage.url} \nMessage content: ${interaction.targetMessage.content} \nAuthor: <@${interaction.targetMessage.author.id}> \nReporter: <@${interaction.user.id}>`);
         await interaction.reply({ content: "Message reported!", ephemeral: true });
+    }
+    else if (interaction.commandName == "Report Member") {
+        const memberReportChannel = await client.channels.fetch(memberReportChannelID);
+        await memberReportChannel.send(`**Member report** \nReported member: <@${interaction.targetMember.id}> \nReported: <@${interaction.user.id}>`);
+        await interaction.reply("Member reported");
     }
 })
 
