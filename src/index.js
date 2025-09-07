@@ -45,6 +45,15 @@ const commands = [
             .setName("reason")
             .setDescription("The reason of the punishemnt")
             .setRequired(true)
+        ),
+    new SlashCommandBuilder()
+        .setName("talk-to-beans")
+        .setDescription("You can talk to beans using this command")
+        .addStringOption(option =>
+            option
+            .setName("message")
+            .setDescription("The message that you want to send to beans")
+            .setRequired(true)
         )
 ]
 
@@ -104,12 +113,11 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 
-// events
-
 // talk to beans
-client.on(Events.MessageCreate, async (message) => {
-    if (message.channel.id == shapechannelid) {
-         await console.log("Beans used");
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.commandName == "talk-to-beans") {
+        const msgToBeans = interaction.options.getString("message")
+        await console.log("Beans used");
         const response = await fetch("https://api.shapes.inc/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -118,18 +126,21 @@ client.on(Events.MessageCreate, async (message) => {
         },
         body: JSON.stringify({
             model: `shapesinc/${shape}`,
-            messages: [{ role: "user", content: message.content }]
+            messages: [{ role: "user", content: msgToBeans }]
         })
         });
 
         const data = await response.json();
 
         const reply = data.response.choices[0].message.content;
-        await message.reply(reply);
+        await interaction.reply(reply);
         console.log("Beans replyed");
 
     }
 })
+
+
+// events
 
 // Log in to Discord with your client's token
 client.login(token);
