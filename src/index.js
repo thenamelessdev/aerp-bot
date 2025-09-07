@@ -109,6 +109,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 // talk to beans
 client.on(Events.MessageCreate, async (message) => {
     if (message.channel.id == shapechannelid) {
+         await console.log("Beans used");
         const response = await fetch("https://api.shapes.inc/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -124,7 +125,9 @@ client.on(Events.MessageCreate, async (message) => {
         const data = await response.json();
 
         const reply = data.response.choices[0].message.content;
-        message.reply(reply);
+        await message.reply(reply);
+        console.log("Beans replyed");
+
     }
 })
 
