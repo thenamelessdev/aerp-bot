@@ -132,7 +132,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
         const data = await response.json();
 
-        const reply = data.response.choices[0].message.content;
+        const reply = data.choices[0].message.content;
         await interaction.reply(reply);
         console.log("Beans replyed");
 
