@@ -1,6 +1,7 @@
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status } = require('discord.js');
 const { token } = require('../config.json');
+const { Component } = require('react');
 
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildModeration, GatewayIntentBits.MessageContent] });
@@ -78,13 +79,19 @@ client.on(Events.InteractionCreate, async (interaction) => {
         const target = interaction.options.getUser("target");
         const punishmentType = interaction.options.getString("punishment-type");
         const reason = interaction.options.getString("reason");
+        const embed = new EmbedBuilder()
+            .setTitle("Punishment")
+            .setDescription("Punishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>")
+            .setFooter("Sent from AERP")
+        const actionRow = new ActionRowBuilder()
+            .addComponents(embed)
 
         if (interaction.member.roles.cache.has(hrid)) {
             try {
-                await target.send(`You got punished: Punishment: ${punishmentType}, Reason: ${reason}, Punishing HR: <@${interaction.member.id}>`);
+                await target.send({ components: [actionRow] });
             } catch (err) {
                 // User may have DMs closed
-            }1411671957937848361
+            }
             // Fetch the channel each time since fetch returns a Promise
             const punishlogging = await client.channels.fetch(punishlogid);
             await punishlogging.send(`Target: ${target} \nPunishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>`);
@@ -92,7 +99,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
         } else {
             await interaction.reply({ content: "You don't have permissions to run this command.", ephemeral: true });
         }
-		console.log("Punish command used")
+		console.log("Punish command used");
     }
 });
 
