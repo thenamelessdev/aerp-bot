@@ -126,7 +126,7 @@ client.on(Events.MessageCreate, async (message) => {
 
         const data = await response.json();
 
-        const reply = data.choices[0].message.content;
+        const reply = data.response.choices[0].message.content;
         message.reply(reply);
     }
 })
