@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status } = require('discord.js');
+const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status, ContextMenuCommandBuilder, ModalBuilder, ApplicationCommandType } = require('discord.js');
 const { token, shapesToken } = require('../config.json');
 
 // Create a new client instance
@@ -20,6 +20,9 @@ const joinlink = "https://www.roblox.com/games/start?placeId=7711635737&launchDa
 // shapes channel and shape
 const shapechannelid = "1413448834138243112";
 const shape = "beans-cc8v";
+
+// msg report channel id
+const msgReportChannelID = "1414180142921809950"
 
 
 // commands
@@ -54,7 +57,10 @@ const commands = [
             .setName("message")
             .setDescription("The message that you want to send to beans")
             .setRequired(true)
-        )
+        ),
+        new ContextMenuCommandBuilder()
+            .setName("Report Message")
+            .setType(ApplicationCommandType.Message)
 ]
 
 // When the client is ready, run this code (only once).
@@ -138,6 +144,17 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     }
 })
+
+
+// report
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.commandName == "Report Message") {
+        const msgReportChannel = await client.channels.fetch(msgReportChannelID);
+        await msgReportChannel.send(`**Message report** \nMessage: ${interaction.targetMessage.url} \nMessage content: ${interaction.targetMessage.content} \nAuthor: <@${interaction.targetMessage.author.id}> \nReporter: <@${interaction.user.id}>`);
+        await interaction.reply({ content: "Message reported!", ephemeral: true });
+    }
+})
+
 
 
 // events
