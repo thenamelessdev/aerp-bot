@@ -25,6 +25,9 @@ const shape = "beans-cc8v";
 const msgReportChannelID = "1414180142921809950";
 const memberReportChannelID = "1413515559672348792";
 
+// welcome channel id
+const welcomeChannelID = "1411672142445150271";
+
 
 // commands
 const commands = [
@@ -171,6 +174,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 
 // events
+
+// welcome message
+client.on(Events.GuildMemberAdd, async (member) => {
+    const welcomeChannel = await client.channels.fetch(welcomeChannelID);
+    await welcomeChannel.send(`Welcome <@${member.user.id}> to ${member.guild.name}!`);
+})
+
 
 // Log in to Discord with your client's token
 client.login(token);
