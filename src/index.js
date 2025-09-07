@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status } = require('discord.js');
-const { token } = require('../config.json');
+const { token, shapesToken } = require('../config.json');
 const { Component } = require('react');
 
 // Create a new client instance
@@ -17,6 +17,10 @@ const hrid = "1411678103033610301";
 // server join code and link
 const joincode = "tkc45ps2";
 const joinlink = "https://www.roblox.com/games/start?placeId=7711635737&launchData=joinCode%3Dtkc45ps2";
+
+// shapes channel and shape
+const shapechannelid = "1413448834138243112";
+const shape = "beans-cc8v";
 
 
 // commands
