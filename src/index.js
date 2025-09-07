@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status, ContextMenuCommandBuilder, ModalBuilder, ApplicationCommandType } = require('discord.js');
+const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, MessageFlags, REST, Routes, Status, ContextMenuCommandBuilder, ModalBuilder, ApplicationCommandType, TextInputBuilder, TextInputStyle } = require('discord.js');
 const { token, shapesToken } = require('../config.json');
 
 // Create a new client instance
@@ -160,17 +160,54 @@ client.on(Events.InteractionCreate, async (interaction) => {
 client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.commandName == "Report Message") {
         const msgReportChannel = await client.channels.fetch(msgReportChannelID);
-        await msgReportChannel.send(`**Message report** \nMessage: ${interaction.targetMessage.url} \nMessage content: ${interaction.targetMessage.content} \nAuthor: <@${interaction.targetMessage.author.id}> \nReporter: <@${interaction.user.id}>`);
-        await interaction.reply({ content: "Message reported!", MessageFlags: [MessageFlags.Ephemeral] });
+        await msgReportChannel.send(
+            `**Message report** 
+Message: ${interaction.targetMessage.url} 
+Message content: ${interaction.targetMessage.content} 
+Author: <@${interaction.targetMessage.author.id}> 
+Reporter: <@${interaction.user.id}>`
+        );
+        await interaction.reply({ content: "Message reported!", flags: [MessageFlags.Ephemeral] });
     }
-})
+});
+
 client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.commandName == "Report Member") {
-        const memberReportChannel = await client.channels.fetch(memberReportChannelID);
-        await memberReportChannel.send(`**Member report** \nReported member: <@${interaction.targetMember.id}> \nReporter: <@${interaction.user.id}>`);
-        await interaction.reply({ content: "Member reported.", MessageFlags: [MessageFlags.Ephemeral] });
+        const modal = new ModalBuilder()
+            .setCustomId(`memberreport-${interaction.targetId}`)
+            .setTitle("Member report");
+
+        const reasonQuestion = new TextInputBuilder()
+            .setCustomId("reasonQuestion")
+            .setLabel("Reason of reporting")
+            .setStyle(TextInputStyle.Paragraph);
+
+        const modalRow = new ActionRowBuilder().addComponents(reasonQuestion);
+        modal.addComponents(modalRow);
+
+        await interaction.showModal(modal);
     }
-})
+});
+
+// handle modal submit
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (!interaction.isModalSubmit()) return;
+    if (interaction.customId.startsWith("memberreport-")) {
+        const reportedMemberId = interaction.customId.split("-")[1];
+        const reason = interaction.fields.getTextInputValue("reasonQuestion");
+
+        const memberReportChannel = await client.channels.fetch(memberReportChannelID);
+        await memberReportChannel.send(
+            `**Member report** 
+Reported member: <@${reportedMemberId}> 
+Reporter: <@${interaction.user.id}> 
+Reason: ${reason}`
+        );
+
+        await interaction.reply({ content: "Member reported!", flags: [MessageFlags.Ephemeral] });
+    }
+});
+
 
 
 
