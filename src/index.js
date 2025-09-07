@@ -86,12 +86,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
             .setTitle("Punishment")
             .setDescription("Punishment: ${punishmentType} \nReason: ${reason} \nPunishing HR: <@${interaction.member.id}>")
             .setFooter("Sent from AERP")
-        const actionRow = new ActionRowBuilder()
-            .addComponents(embed)
 
         if (interaction.member.roles.cache.has(hrid)) {
             try {
-                await target.send({ components: [actionRow] });
+                await target.send({ embeds: [embed] });
             } catch (err) {
                 // User may have DMs closed
             }
