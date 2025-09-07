@@ -110,7 +110,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
             // Fetch the channel each time since fetch returns a Promise
             const punishlogging = await client.channels.fetch(punishlogid);
             await punishlogging.send(
-                `Target: ${target.tag || target.username || target.id}\nPunishment: ${punishmentType}\nReason: ${reason}\nPunishing HR: <@${interaction.member.id}>`
+                `Target: <@${target.id}> \nPunishment: ${punishmentType}\nReason: ${reason}\nPunishing HR: <@${interaction.member.id}>`
             );
             await interaction.reply("Punished user");
         } else {
