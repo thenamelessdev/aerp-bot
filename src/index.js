@@ -54,15 +54,6 @@ const commands = [
             .setDescription("The reason of the punishemnt")
             .setRequired(true)
         ),
-    new SlashCommandBuilder()
-        .setName("talk-to-beans")
-        .setDescription("You can talk to beans using this command")
-        .addStringOption(option =>
-            option
-            .setName("message")
-            .setDescription("The message that you want to send to beans")
-            .setRequired(true)
-        ),
     new ContextMenuCommandBuilder()
         .setName("Report Message")
         .setType(3),
@@ -129,31 +120,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 });
 
 
-// talk to beans
-client.on(Events.InteractionCreate, async (interaction) => {
-    if (interaction.commandName == "talk-to-beans") {
-        const msgToBeans = interaction.options.getString("message")
-        await console.log("Beans used");
-        const response = await fetch("https://api.shapes.inc/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${shapesToken}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            model: `shapesinc/${shape}`,
-            messages: [{ role: "user", content: msgToBeans }]
-        })
-        });
-
-        const data = await response.json();
-
-        const reply = data.choices[0].message.content;
-        await interaction.reply(reply);
-        console.log("Beans replyed: " + reply);
-
-    }
-})
 
 
 // report member and message
