@@ -3,7 +3,7 @@ const { Client, Events, GatewayIntentBits, EmbedBuilder, StringSelectMenuBuilder
 const { token, shapesToken } = require('../config.json');
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildModeration, GatewayIntentBits.MessageContent] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildModeration, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
 
 // variables
 
