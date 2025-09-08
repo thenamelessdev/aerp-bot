@@ -30,7 +30,7 @@ const welcomeChannelID = "1411672142445150271";
 const leaveChannelID = "1411672148245872844";
 
 // banned words
-const bannedWords = ["nig", "fuck", "bitch", "shit", "dick", "asshole", "bastard", "cock"];
+const bannedWords = ["nig", "fuck", "bitch", "shit", "dick", "asshole", "bastard", "cock", "n.i.g", "f.u.c.k", "b.i.t.c.h", "s.h.i.t", "d.i.c.k", "a.s.s.h.o.l.e", "b.a.s.t.a.r.d", "c.o.c.k", "n i g", "f u c k", "b i t c h", "s h i t", "d i c k", "a s s h o l e", "b a s t a r d", "c o c k"];
 
 // commands
 const commands = [
