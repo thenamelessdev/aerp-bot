@@ -59,6 +59,9 @@ const commands = [
         .setType(3),
     new ContextMenuCommandBuilder()
         .setName("Report Member")
+        .setType(2),
+    new ContextMenuCommandBuilder()
+        .setName("Rizz User")
         .setType(2)
 ]
 
@@ -174,6 +177,19 @@ Reason: ${reason}`
     }
 });
 
+
+// rizz user
+client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.commandName == "Rizz User") {
+        try {
+            await interaction.targetMember.send(`<@${interaction.user.id}> loves you <3`);
+        }
+        catch (err) {
+            
+        }
+        await interaction.reply({ content: "Rizzed user", MessageFlags: MessageFlags.Ephemeral });
+    }
+})
 
 
 
