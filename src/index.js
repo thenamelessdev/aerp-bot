@@ -29,6 +29,8 @@ const memberReportChannelID = "1413515559672348792";
 const welcomeChannelID = "1411672142445150271";
 const leaveChannelID = "1411672148245872844";
 
+// banned words
+const bannedWords = ["nig", "fuck", "bitch", "shit", "dick", "asshole", "bastard", "cock"];
 
 // commands
 const commands = [
@@ -205,6 +207,21 @@ client.on(Events.GuildMemberRemove, async (member) => {
     const leaveChannel = await client.channels.fetch(leaveChannelID);
     await leaveChannel.send(`${member.user.username} has left the server :(`);
 })
+
+// banned words
+client.on(Events.MessageCreate, async (message) => {
+    const msg = message.content.toLowerCase();
+    const found = bannedWords.some(word => msg.includes(word));
+    if (found) {
+        await message.delete();
+        const warnMsg = await message.channel.send(
+            `<@${message.author.id}> You can't say that.`
+        );
+        setTimeout(() => {
+            warnMsg.delete();
+        }, 5000);
+    }
+});
 
 
 // Log in to Discord with your client's token
