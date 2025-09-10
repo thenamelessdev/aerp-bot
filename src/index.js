@@ -224,5 +224,14 @@ client.on(Events.MessageCreate, async (message) => {
 });
 
 
+client.on(Events.MessageCreate, (message) => {
+    if (message.content == "!code") {
+        embed = new EmbedBuilder()
+            .setTitle("Join code")
+            .setDescription(`**Join code:** ${joincode} \n[Quick join](${joinlink})`)
+        message.reply({ embeds: [embed] })
+    }
+})
+
 // Log in to Discord with your client's token
 client.login(token);
